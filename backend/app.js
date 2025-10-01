@@ -1,7 +1,8 @@
 require('dotenv').config()
 const express = require("express");
 const app = express();
-const jobRouter = require("./routes/jobRouter");
+const productRouter = require("./routes/productRouter");
+const userRouter = require("./routes/userRouter");
 const { unknownEndpoint,errorHandler } = require("./middleware/customMiddleware");
 const connectDB = require("./config/db");
 const cors = require("cors");
@@ -12,8 +13,10 @@ app.use(express.json());
 
 connectDB();
  
-// Use the jobRouter for all "/jobs" routes
-app.use("/api/jobs", jobRouter);
+// Use the productRouter for all "/products" routes
+app.use("/api/products", productRouter);
+// Use the userRouter for all "/jobs" routes
+app.use("/api/users", userRouter);
 
 app.use(unknownEndpoint);
 app.use(errorHandler);

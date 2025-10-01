@@ -1,4 +1,4 @@
-import JobListings from "../components/JobListings";
+import JobListings from "../components/ProductListings";
 
 const Home = () => {
   return (
