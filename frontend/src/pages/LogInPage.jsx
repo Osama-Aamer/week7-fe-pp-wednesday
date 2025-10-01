@@ -5,7 +5,7 @@ const LogInPage = ({setIsAuthenticated}) => {
     const API_URL = "/api/users"
 
     const [form, setForm] = useState({
-        username: "",
+        email: "",
         password: "",
     });
 
@@ -49,7 +49,7 @@ const submitForm = (e) => {
     logInUser(form)
     setForm({
 
-        username: "",
+        email: "",
         password: "",
     
     });
@@ -64,11 +64,11 @@ return (
         <form onSubmit={submitForm}>
             
 
-            <label>Username:</label>
+            <label>Email:</label>
             <input
-                name="username"
+                name="email"
                 required
-                value={form.username}
+                value={form.email}
                 onChange={handleInputChange}
             ></input>
 

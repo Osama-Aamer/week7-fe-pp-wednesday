@@ -15,28 +15,24 @@ const generateToken = (_id) => {
 const signupUser = async (req, res) => {
   const {
     name,
-    username,
+    email,
     password,
-    phone_number,
-    gender,
-    date_of_birth,
-    membership_status,
+    role,
+    bio
   } = req.body;
   try {
     if (
       !name ||
-      !username ||
+      !email ||
       !password ||
-      !phone_number ||
-      !gender ||
-      !date_of_birth ||
-      !membership_status
+      !role ||
+      !bio
     ) {
       res.status(400);
       throw new Error("Please add all fields");
     }
     // Check if user exists
-    const userExists = await User.findOne({ username });
+    const userExists = await User.findOne({ email });
 
     if (userExists) {
       res.status(400);
@@ -50,17 +46,15 @@ const signupUser = async (req, res) => {
     // Create user
     const user = await User.create({
       name,
-      username,
+      email,
       password: hashedPassword,
-      phone_number,
-      gender,
-      date_of_birth,
-      membership_status,
+      role,
+      bio
     });
 
     if (user) {
       // console.log(user._id);
-     const token = generateToken(user._id);
+      const token = generateToken(user._id);
       res.status(201).json({ user, token });
     } else {
       res.status(400);
@@ -75,10 +69,10 @@ const signupUser = async (req, res) => {
 // @route   POST /api/users/login
 // @access  Public
 const loginUser = async (req, res) => {
-  const { username, password } = req.body;
+  const { email, password } = req.body;
   try {
     // Check for user email
-    const user = await User.findOne({ username });
+    const user = await User.findOne({ email });
 
     if (user && (await bcrypt.compare(password, user.password))) {
       const token = generateToken(user._id);
@@ -87,6 +81,9 @@ const loginUser = async (req, res) => {
       res.status(400);
       throw new Error("Invalid credentials");
     }
+     
+    user.lastLogin = Date.now
+
   } catch (error) {
     res.status(400).json({ error: error.message });
   }

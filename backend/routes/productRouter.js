@@ -13,7 +13,6 @@ router.get("/", getAllProducts);
 router.get("/:productId", getProductById);
 
 
-
 router.use(requireAuth);
 
 router.post("/", createProduct);
